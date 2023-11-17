@@ -1,10 +1,13 @@
-class Settings:
+class LogSettings:
+    level = 'DEBUG'
+    format = '%(asctime)s | %(filename)s:%(lineno)d | %(levelname)8s | %(message)s'
+    time_format = '%Y-%m-%d %H:%M:%S'
+    filename = ''
+    filemode = 'a'
 
-    LOG_LEVEL = 'DEBUG'
-    LOG_FORMAT = '%(asctime)s | %(filename)s:%(lineno)d | %(levelname)8s | %(message)s'
-    LOG_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
-    LOG_FILENAME = ''
-    LOG_FILEMODE = 'a'
+
+class Settings:
+    log = LogSettings()
 
 
 settings = Settings()

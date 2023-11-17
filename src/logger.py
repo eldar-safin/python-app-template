@@ -10,8 +10,8 @@ class ColoredFormatter(logging.Formatter):
     '''
 
     ESCAPE_CODES = {
-        logging.DEBUG: '\x1b[38;20m',       # серый цвет
-        logging.INFO: '\x1b[37;20m',        # белый цвет
+        logging.DEBUG: '\x1b[37;20m',       # серый цвет
+        logging.INFO: '\x1b[38;20m',        # белый цвет
         logging.WARNING: '\x1b[33;20m',     # желтый цвет
         logging.ERROR: '\x1b[31;20m',       # красный цвет
         logging.CRITICAL: '\x1b[31;1m'      # красный цвет, жирное начертание
@@ -22,17 +22,17 @@ class ColoredFormatter(logging.Formatter):
     def format(self, record):
         record_format = ' '.join([
             self.ESCAPE_CODES.get(record.levelno),
-            settings.LOG_FORMAT,
+            settings.log.format,
             self.RESET_CODE
         ])
-        formatter = logging.Formatter(record_format, settings.LOG_TIME_FORMAT)
+        formatter = logging.Formatter(record_format, settings.log.time_format)
         return formatter.format(record)
 
 
 logger = logging.getLogger()
 
 # Указываем уровень ведения журнала
-logger.setLevel(logging.getLevelName(settings.LOG_LEVEL))
+logger.setLevel(logging.getLevelName(settings.log.level))
 
 # Добавляем журналирование в стандартный вывод
 stream_handler = logging.StreamHandler()
@@ -40,10 +40,10 @@ stream_handler.setFormatter(ColoredFormatter())
 logger.addHandler(stream_handler)
 
 # Добавляем журналирование в файл
-if settings.LOG_FILENAME:
+if settings.log.filename:
     file_formatter = logging.Formatter(
-        settings.LOG_FORMAT, settings.LOG_TIME_FORMAT)
+        settings.log.format, settings.log.time_format)
     file_handler = logging.FileHandler(
-        settings.LOG_FILENAME, settings.LOG_FILEMODE)
+        settings.log.filename, settings.log.filemode)
     file_handler.setFormatter(file_formatter)
     logger.addHandler(file_handler)
